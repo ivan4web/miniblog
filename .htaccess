@@ -1,0 +1,28 @@
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+AddType application/x-httpd-php .htm .html
+
+	RewriteEngine On
+	RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^www.miniblog\.a\.dp\.ua$ [NC]
+RewriteRule ^(.*)$ https://miniblog.a.dp.ua/$1 [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+RewriteRule ^index\.php$ https://miniblog.a.dp.ua/ [R=301,L]
+RewriteRule ^index\.html$ https://miniblog.a.dp.ua/ [R=301,L]
+
+
+REWRITERULE ^([^/]*)/$ index.php?val=$1&%{QUERY_STRING} [NC,L]
+#REWRITERULE ^([^/]*)/([^/]*)/$ index.php?val=$1&id=$2&%{QUERY_STRING} [NC,L]
+
+RewriteCond %{HTTP_USER_AGENT} ^EmailSiphon [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ExtractorPro [OR]
+RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule .* index.php [F]
+Options -Indexes
+IndexIgnore *.php
