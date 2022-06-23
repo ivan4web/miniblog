@@ -1,5 +1,5 @@
 <?session_start();
-$_connect = @mysqli_connect("localhost", "admin_mini", "6euur5EeMb", "admin_mini"); 
+$_connect = @mysqli_connect("HOST", "DB_LOGIN", "DB_PASS", "DB"); 
 @mysqli_query($_connect, "set names utf8"); 
 //$unix_time = time()+60*60*24*14; 
 $_config = 1;
